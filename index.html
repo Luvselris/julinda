@@ -247,12 +247,12 @@
       display: block;
     }
 
-    /* คงขนาดพอดีเดิม และขยับจุดวงม่วงด้านบนไม่ให้โผล่พ้นขอบกรอบ */
+    /* กรอบโปรไฟล์ใหม่ พอดีรอบวงกลมและอยู่นิ่งสนิท */
     .avatar-stage {
       position: relative;
-      width: 280px;
-      height: 220px;
-      margin: -80px auto -20px;
+      width: 188px;
+      height: 156px;
+      margin: -62px auto -6px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -260,13 +260,13 @@
     }
 
     .avatar-photo-circle {
-      width: 84px;
-      height: 84px;
+      width: 86px;
+      height: 86px;
       border-radius: 50%;
       overflow: hidden;
-      border: none;
-      background: transparent;
-      box-shadow: none;
+      border: 2.5px solid #ffffff;
+      background: #ffffff;
+      box-shadow: 0 4px 14px rgba(166, 132, 196, 0.18);
       position: relative;
       z-index: 1;
     }
@@ -275,7 +275,6 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transform: translateY(5px);
       display: block;
     }
 
@@ -285,7 +284,6 @@
       width: 100%;
       height: 100%;
       object-fit: contain;
-      transform: translateY(8px);
       pointer-events: none;
       z-index: 2;
     }
@@ -444,6 +442,7 @@ open 9:00 - 23:30 ♡
   <script>
     const DB_COLLECTION = "julinda_config";
     const DEFAULT_MUSIC = "https://file.garden/asG8Gt-rqWIpi3II/Butter%20Love%20Fan%20Chant.mp3";
+    const DEFAULT_FRAME = "https://files.catbox.moe/t705p0.png";
 
     const firebaseConfig = {
       apiKey: "AIzaSyCpAGDSy1NRgmLV_g7qJrCpwOhU9MrfQyY",
@@ -523,7 +522,7 @@ open 9:00 - 23:30 ♡
 
       if (d.bannerImg) document.getElementById("bannerImg").src = d.bannerImg;
       if (d.profileImg) document.getElementById("profileImg").src = d.profileImg;
-      if (d.profileFrameImg) document.getElementById("profileFrameImg").src = d.profileFrameImg;
+      document.getElementById("profileFrameImg").src = d.profileFrameImg || DEFAULT_FRAME;
       if (d.nameSideImg) document.getElementById("nameSideImg").src = d.nameSideImg;
 
       if (d.shopName) {
