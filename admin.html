@@ -18,10 +18,10 @@
       --pink-deep: #eb7aa3;
       --cream-soft: #fffdf8;
       --card-bg: rgba(255, 255, 255, 0.94);
-      --border-pastel: rgba(235, 122, 163, 0.35);
+      --border-pastel: rgba(235, 122, 163, 0.25);
       --text-main: #4a3f55;
       --text-muted: #7d6f8a;
-      --shadow-pastel: 0 12px 28px rgba(166, 132, 196, 0.16);
+      --shadow-pastel: 0 12px 28px rgba(166, 132, 196, 0.14);
     }
 
     *, *::before, *::after {
@@ -36,9 +36,9 @@
       color: var(--text-main);
       background-color: var(--cream-soft);
       background-image:
-        radial-gradient(rgba(247, 178, 204, 0.4) 1.6px, transparent 1.6px),
-        radial-gradient(rgba(167, 152, 219, 0.22) 1.5px, transparent 1.5px),
-        linear-gradient(145deg, #fff5f9 0%, #eef7ff 52%, #f5eeff 100%);
+        radial-gradient(rgba(247, 178, 204, 0.36) 1.5px, transparent 1.5px),
+        radial-gradient(rgba(167, 152, 219, 0.22) 1.4px, transparent 1.4px),
+        linear-gradient(145deg, #fff6f9 0%, #f1f8ff 52%, #f7f2ff 100%);
       background-size: 36px 36px, 54px 54px, 100% 100%;
       background-position: 0 0, 18px 27px, 0 0;
       padding: 22px 14px 80px;
@@ -106,10 +106,11 @@
       flex-direction: column;
       gap: 6px;
       margin-bottom: 14px;
-      padding: 10px 12px;
-      border-radius: 16px;
-      background: rgba(255, 255, 255, 0.72);
-      border: 1px dashed var(--border-pastel);
+      padding: 12px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.85);
+      border: 1.5px solid #ffffff;
+      box-shadow: 0 4px 14px rgba(166, 132, 196, 0.08);
     }
 
     .preview-thumb {
@@ -121,12 +122,40 @@
       background: #fff5f9;
     }
 
+    /* พรีวิวกรอบโปรไฟล์ในหลังบ้านให้เห็นสัดส่วนพอดีรอบโปรไฟล์ */
+    .frame-preview-box {
+      position: relative;
+      width: 92px;
+      height: 92px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 2px;
+    }
+
+    .frame-preview-base {
+      width: 74px;
+      height: 74px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #ffffff;
+    }
+
+    .frame-preview-overlay {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      pointer-events: none;
+    }
+
     .btn-pink {
       width: 100%;
       padding: 13px 16px;
       border-radius: 22px;
       border: 2px solid #ffffff;
-      background: linear-gradient(135deg, #ff9ec2, var(--pink-deep));
+      background: linear-gradient(135deg, #ffa2c4, var(--pink-deep));
       color: #ffffff;
       font-size: 14.5px;
       font-weight: 700;
@@ -187,7 +216,7 @@
           <label class="field-label" style="margin:0;">รูปหน้าแรก (เลือกจากมือถือได้ไม่จำกัด)</label>
           <input type="file" accept="image/*" onchange="onPickImage(event, 'welcomeImg')">
           <input type="text" id="welcomeImgInput" class="input-box" style="margin:0;" placeholder="หรือวางลิงก์รูป">
-          <img id="prev_welcomeImg" class="preview-thumb" src="https://files.catbox.moe/ke2gn7.jpeg" alt="">
+          <img id="prev_welcomeImg" class="preview-thumb" src="https://i.ibb.co/JFMdR2xf/IMG-3559.png" alt="">
         </div>
       </div>
 
@@ -217,7 +246,10 @@
           <label class="field-label" style="margin:0;">กรอบโปรไฟล์ (จัดขนาดพอดีรอบโปรไฟล์อัตโนมัติ)</label>
           <input type="file" accept="image/*" onchange="onPickImage(event, 'profileFrameImg')">
           <input type="text" id="profileFrameImgInput" class="input-box" style="margin:0;" placeholder="หรือวางลิงก์กรอบโปรไฟล์">
-          <img id="prev_profileFrameImg" class="preview-thumb" src="https://files.catbox.moe/fpk769.gif" alt="">
+          <div class="frame-preview-box">
+            <img id="prev_frameBase" class="frame-preview-base" src="https://files.catbox.moe/76x8fa.png" alt="">
+            <img id="prev_profileFrameImg" class="frame-preview-overlay" src="https://files.catbox.moe/fpk769.gif" alt="">
+          </div>
         </div>
 
         <div class="upload-row">
@@ -263,7 +295,7 @@
       welcomeName: "julinda",
       welcomeDesc: "welcome to julinda\nclick to watch ‎૮꒰ ˶• ༝ •˶꒱ა",
       goToContactLabel: "go to contact  ♡",
-      welcomeImg: "https://files.catbox.moe/ke2gn7.jpeg",
+      welcomeImg: "https://i.ibb.co/JFMdR2xf/IMG-3559.png",
       bannerImg: "https://files.catbox.moe/uic9km.jpeg",
       profileImg: "https://files.catbox.moe/76x8fa.png",
       profileFrameImg: "https://files.catbox.moe/fpk769.gif",
@@ -348,6 +380,7 @@
         document.getElementById(k + "Input").value = val;
         document.getElementById("prev_" + k).src = val;
       });
+      document.getElementById("prev_frameBase").src = d.profileImg || DEFAULTS.profileImg;
     }
 
     function readRawDataUrl(file) {
@@ -359,7 +392,6 @@
       });
     }
 
-    // คงต้นฉบับไว้หากไฟล์เล็กพอ และย่อขนาดอัตโนมัติเฉพาะกรณีใหญ่เกินลิมิต
     async function processImageUnlimited(file, maxSide = 960) {
       const raw = await readRawDataUrl(file);
       if (new Blob([raw]).size <= MAX_DOC_BYTES) return raw;
@@ -407,6 +439,9 @@
       const result = await processImageUnlimited(file, side);
       document.getElementById(key + "Input").value = result;
       document.getElementById("prev_" + key).src = result;
+      if (key === "profileImg") {
+        document.getElementById("prev_frameBase").src = result;
+      }
       e.target.value = "";
     }
 
