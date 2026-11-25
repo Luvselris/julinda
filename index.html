@@ -18,13 +18,13 @@
       --pink-pastel: #ffd6e5;
       --pink-deep: #eb7aa3;
       --blue-pastel: #d9f0ff;
-      --purple-pastel: #eadcff;
+      --yellow-pastel: #fff7cf;
       --cream-soft: #fffdf8;
       --card-bg: rgba(255, 255, 255, 0.94);
       --border-pastel: rgba(235, 122, 163, 0.25);
       --text-main: #4a3f55;
       --text-muted: #7d6f8a;
-      --shadow-pastel: 0 12px 28px rgba(166, 132, 196, 0.14);
+      --shadow-pastel: 0 12px 28px rgba(214, 178, 130, 0.14);
     }
 
     *, *::before, *::after {
@@ -41,15 +41,15 @@
       background-color: var(--cream-soft);
       background-image:
         radial-gradient(rgba(247, 178, 204, 0.36) 1.5px, transparent 1.5px),
-        radial-gradient(rgba(167, 152, 219, 0.22) 1.4px, transparent 1.4px),
-        linear-gradient(145deg, #fff6f9 0%, #f1f8ff 52%, #f7f2ff 100%);
+        radial-gradient(rgba(235, 204, 118, 0.28) 1.4px, transparent 1.4px),
+        linear-gradient(145deg, #fff6f9 0%, #f1f8ff 52%, #fffbe6 100%);
       background-size: 36px 36px, 54px 54px, 100% 100%;
       background-position: 0 0, 18px 27px, 0 0;
       overflow-x: hidden;
       position: relative;
     }
 
-    /* ลูกเล่นฟุ้งๆ กลมๆ ชมพู-ฟ้า-ม่วงพาสเทลลอยไปมา */
+    /* ลูกเล่นฟุ้งๆ กลมๆ ชมพู-ฟ้า-เหลืองพาสเทลลอยไปมา */
     .pastel-ambient {
       position: fixed;
       inset: 0;
@@ -62,7 +62,7 @@
       position: absolute;
       border-radius: 50%;
       filter: blur(26px);
-      opacity: 0.55;
+      opacity: 0.58;
       animation: orbDrift 13s ease-in-out infinite alternate;
     }
 
@@ -203,7 +203,7 @@
       font-size: 12.5px;
       font-weight: 600;
       cursor: pointer;
-      box-shadow: 0 4px 12px rgba(166, 132, 196, 0.1);
+      box-shadow: 0 4px 12px rgba(214, 178, 130, 0.12);
       display: inline-flex;
       align-items: center;
       gap: 6px;
@@ -237,7 +237,7 @@
       border-radius: 22px;
       overflow: hidden;
       border: 2px solid #ffffff;
-      background: linear-gradient(135deg, var(--pink-pastel), var(--blue-pastel), var(--purple-pastel));
+      background: linear-gradient(135deg, var(--pink-pastel), var(--blue-pastel), var(--yellow-pastel));
     }
 
     .banner-frame img {
@@ -247,7 +247,7 @@
       display: block;
     }
 
-    /* ปรับวงกลมโปรไฟล์ให้แนบพอดีกับขอบวงด้านในของกรอบลูกไม้ */
+    /* กรอบนิ่งสนิท และปรับวงกลมโปรไฟล์ให้แนบพอดีกับขอบวงด้านในของกรอบลูกไม้ */
     .avatar-stage {
       position: relative;
       width: 124px;
@@ -359,7 +359,7 @@
     }
 
     .pastel-link-box:nth-child(3) {
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(246, 239, 255, 0.92));
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(255, 250, 222, 0.94));
     }
 
     .pastel-link-box:active {
@@ -376,11 +376,11 @@
 
   <audio id="bgMusic" loop preload="auto" playsinline src="https://file.garden/asG8Gt-rqWIpi3II/Butter%20Love%20Fan%20Chant.mp3"></audio>
 
-  <!-- ลูกเล่นฟุ้งๆ กลมๆ ชมพู-ฟ้า-ม่วงพาสเทลลอยไปมา -->
+  <!-- ลูกเล่นฟุ้งๆ กลมๆ ชมพู-ฟ้า-เหลืองพาสเทลลอยไปมา -->
   <div class="pastel-ambient" id="pastelAmbient">
     <div class="ambient-orb" style="width:220px; height:220px; top:6%; left:-50px; background:#ffd6e5;"></div>
     <div class="ambient-orb" style="width:240px; height:240px; top:38%; right:-60px; background:#d9f0ff; animation-delay:-4s;"></div>
-    <div class="ambient-orb" style="width:200px; height:200px; bottom:8%; left:8%; background:#eadcff; animation-delay:-8s;"></div>
+    <div class="ambient-orb" style="width:200px; height:200px; bottom:8%; left:8%; background:#fff7cf; animation-delay:-8s;"></div>
   </div>
 
   <!-- หน้าแรกต้อนรับ -->
@@ -408,7 +408,7 @@ click to watch ‎૮꒰ ˶• ༝ •˶꒱ა</div>
 
       <div class="avatar-stage">
         <div class="avatar-photo-circle">
-          <img id="profileImg" src="https://files.catbox.moe/76x8fa.png" alt="Profile">
+          <img id="profileImg" src="https://files.catbox.moe/1xghgg.jpeg" alt="Profile">
         </div>
         <img id="profileFrameImg" class="avatar-frame-overlay" src="https://files.catbox.moe/t705p0.png" alt="Frame">
       </div>
@@ -425,12 +425,13 @@ open 9:00 - 23:30 ♡
 
     <div class="links-stack">
       <a id="link1" href="https://lin.ee/6AUvK58" target="_blank" rel="noopener noreferrer" class="pastel-link-box">
-        <span id="link1Title">♡ line me : @180igtyi</span>
+        <span id="link1Title">‎ ‎ ‏‏‎⠀ ⠀𓈒ִ֯☁️ ⠀⠀⠀ℒ𓈒ine⠀⠀⠀֯ ♡ ̇
+</span>
         <span class="link-arrow">➔</span>
       </a>
 
       <a id="link2" href="https://www.facebook.com/share/1AEnqrLjs8/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" class="pastel-link-box">
-        <span id="link2Title">♡ facebook  me</span>
+        <span id="link2Title">‎ ‎ ‏‏‎⠀   𓈒ִ֯🥛⠀⠀⠀𝒻𓈒acebook⠀⠀⠀֯ ♡ ̇</span>
         <span class="link-arrow">➔</span>
       </a>
 
@@ -554,8 +555,8 @@ open 9:00 - 23:30 ♡
       if (doc.exists) applyConfig(doc.data());
     });
 
-    // ลูกเล่นกลมๆ ฟุ้งๆ ชมพู-ฟ้า-ม่วงพาสเทลลอยขึ้นช้าๆ
-    const dotPalette = ["#ffd6e5", "#d9f0ff", "#eadcff", "#fff0f6"];
+    // ลูกเล่นกลมๆ ฟุ้งๆ ชมพู-ฟ้า-เหลืองพาสเทลลอยขึ้นช้าๆ
+    const dotPalette = ["#ffd6e5", "#d9f0ff", "#fff7cf", "#fff0f6"];
     const ambientLayer = document.getElementById("pastelAmbient");
     setInterval(() => {
       const dot = document.createElement("div");
