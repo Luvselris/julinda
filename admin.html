@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard ♡ julinda</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+  <style>
+    :root {
+      --pink-deep: #eb7aa3;
+      --cream-soft: #fffdf8;
+      --card-bg: rgba(255, 255, 255, 0.94);
+      --border-pastel: rgba(235, 122, 163, 0.35);
+      --text-main: #4a3f55;
+      --text-muted: #7d6f8a;
+      --shadow-pastel: 0 12px 28px rgba(166, 132, 196, 0.16);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Quicksand', 'Mitr', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      color: var(--text-main);
+      background-color: var(--cream-soft);
+      background-image:
+        radial-gradient(rgba(247, 178, 204, 0.4) 1.6px, transparent 1.6px),
+        radial-gradient(rgba(167, 152, 219, 0.22) 1.5px, transparent 1.5px),
+        linear-gradient(145deg, #fff5f9 0%, #eef7ff 52%, #f5eeff 100%);
+      background-size: 36px 36px, 54px 54px, 100% 100%;
+      background-position: 0 0, 18px 27px, 0 0;
+      padding: 22px 14px 80px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 460px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border: 2px solid #ffffff;
+      border-radius: 26px;
+      padding: 20px 18px;
+      box-shadow: var(--shadow-pastel);
+      margin-bottom: 16px;
+    }
+
+    .card-title {
+      font-size: 15.5px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .field-label {
+      display: block;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 5px;
+    }
+
+    .input-box, .textarea-box {
+      width: 100%;
+      padding: 11px 14px;
+      border-radius: 15px;
+      border: 1.5px solid var(--border-pastel);
+      background: #ffffff;
+      color: var(--text-main);
+      font-size: 13.5px;
+      outline: none;
+      margin-bottom: 12px;
+    }
+
+    .input-box:focus, .textarea-box:focus {
+      border-color: var(--pink-deep);
+    }
+
+    .textarea-box {
+      min-height: 78px;
+      resize: vertical;
+      line-height: 1.6;
+    }
+
+    .upload-row {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 14px;
+      padding: 10px 12px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px dashed var(--border-pastel);
+    }
+
+    .preview-thumb {
+      width: 64px;
+      height: 64px;
+      border-radius: 14px;
+      object-fit: cover;
+      border: 1.5px solid #ffffff;
+      background: #fff5f9;
+    }
+
+    .btn-pink {
+      width: 100%;
+      padding: 13px 16px;
+      border-radius: 22px;
+      border: 2px solid #ffffff;
+      background: linear-gradient(135deg, #ff9ec2, var(--pink-deep));
+      color: #ffffff;
+      font-size: 14.5px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 7px 18px rgba(235, 122, 163, 0.28);
+    }
+
+    .btn-outline {
+      background: #ffffff;
+      border: 1.5px solid var(--border-pastel);
+      color: var(--text-main);
+      padding: 7px 14px;
+      border-radius: 16px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- หน้าล็อกอิน -->
+    <div class="card" id="loginCard">
+      <h2 style="text-align:center; color:var(--pink-deep); margin-bottom:16px;">Admin Login ♡ julinda</h2>
+      <form onsubmit="handleLogin(event)">
+        <label class="field-label">อีเมล</label>
+        <input type="email" id="loginEmail" class="input-box" placeholder="mamax5xma@gmail.com" required>
+
+        <label class="field-label">รหัสผ่าน</label>
+        <input type="password" id="loginPass" class="input-box" placeholder="••••••••" required>
+
+        <button type="submit" class="btn-pink">เข้าสู่ระบบ ✨</button>
+        <p id="loginErr" style="color:#d64c7f; font-size:12px; text-align:center; margin-top:10px; display:none;">อีเมลหรือรหัสผ่านไม่ถูกต้องค่ะ</p>
+      </form>
+    </div>
+
+    <!-- แผงควบคุมหลังบ้าน -->
+    <div id="adminDashboard" class="hidden">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+        <div style="font-size:18px; font-weight:700; color:var(--text-main);">Dashboard ♡ julinda</div>
+        <button type="button" class="btn-outline" onclick="handleLogout()">ออกระบบ</button>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>🌸 หน้าแรกต้อนรับ</span></div>
+        <label class="field-label">ชื่อหน้าแรก</label>
+        <input type="text" id="welcomeNameInput" class="input-box" placeholder="julinda">
+
+        <label class="field-label">คำอธิบายหน้าแรก</label>
+        <textarea id="welcomeDescInput" class="textarea-box"></textarea>
+
+        <label class="field-label">ข้อความปุ่มกรอบชมพู</label>
+        <input type="text" id="goToContactLabelInput" class="input-box" placeholder="go to contact  ♡">
+
+        <div class="upload-row">
+          <label class="field-label" style="margin:0;">รูปหน้าแรก (เลือกจากมือถือได้ไม่จำกัด)</label>
+          <input type="file" accept="image/*" onchange="onPickImage(event, 'welcomeImg')">
+          <input type="text" id="welcomeImgInput" class="input-box" style="margin:0;" placeholder="หรือวางลิงก์รูป">
+          <img id="prev_welcomeImg" class="preview-thumb" src="https://files.catbox.moe/ke2gn7.jpeg" alt="">
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>🎀 หน้าโปรไฟล์ & รูปทั้งหมด</span></div>
+        <label class="field-label">ชื่อร้าน</label>
+        <input type="text" id="shopNameInput" class="input-box" placeholder="julinda">
+
+        <label class="field-label">ไบโอร้าน</label>
+        <textarea id="bioTextInput" class="textarea-box"></textarea>
+
+        <div class="upload-row">
+          <label class="field-label" style="margin:0;">รูปแบนเนอร์ (เลือกจากมือถือได้ไม่จำกัด)</label>
+          <input type="file" accept="image/*" onchange="onPickImage(event, 'bannerImg')">
+          <input type="text" id="bannerImgInput" class="input-box" style="margin:0;" placeholder="หรือวางลิงก์แบนเนอร์">
+          <img id="prev_bannerImg" class="preview-thumb" src="https://files.catbox.moe/uic9km.jpeg" alt="">
+        </div>
+
+        <div class="upload-row">
+          <label class="field-label" style="margin:0;">รูปโปรไฟล์ (เลือกจากมือถือได้ไม่จำกัด)</label>
+          <input type="file" accept="image/*" onchange="onPickImage(event, 'profileImg')">
+          <input type="text" id="profileImgInput" class="input-box" style="margin:0;" placeholder="หรือวางลิงก์โปรไฟล์">
+          <img id="prev_profileImg" class="preview-thumb" src="https://files.catbox.moe/76x8fa.png" alt="">
+        </div>
+
+        <div class="upload-row">
+          <label class="field-label" style="margin:0;">กรอบโปรไฟล์ (จัดขนาดพอดีรอบโปรไฟล์อัตโนมัติ)</label>
+          <input type="file" accept="image/*" onchange="onPickImage(event, 'profileFrameImg')">
+          <input type="text" id="profileFrameImgInput" class="input-box" style="margin:0;" placeholder="หรือวางลิงก์กรอบโปรไฟล์">
+          <img id="prev_profileFrameImg" class="preview-thumb" src="https://files.catbox.moe/fpk769.gif" alt="">
+        </div>
+
+        <div class="upload-row">
+          <label class="field-label" style="margin:0;">รูป PNG ข้างๆ ชื่อ (เลือกจากมือถือได้ไม่จำกัด)</label>
+          <input type="file" accept="image/*" onchange="onPickImage(event, 'nameSideImg')">
+          <input type="text" id="nameSideImgInput" class="input-box" style="margin:0;" placeholder="หรือวางลิงก์รูปข้างชื่อ">
+          <img id="prev_nameSideImg" class="preview-thumb" src="https://files.catbox.moe/gp9ff1.png" alt="">
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>🔗 ลิงก์ติดต่อ & เพลง</span></div>
+        <label class="field-label">ชื่อกล่อง 1</label>
+        <input type="text" id="link1TitleInput" class="input-box" placeholder="♡ line me : @180igtyi">
+        <label class="field-label">ลิงก์กล่อง 1</label>
+        <input type="url" id="link1UrlInput" class="input-box" placeholder="https://lin.ee/6AUvK58">
+
+        <label class="field-label">ชื่อกล่อง 2</label>
+        <input type="text" id="link2TitleInput" class="input-box" placeholder="♡ facebook  me">
+        <label class="field-label">ลิงก์กล่อง 2</label>
+        <input type="url" id="link2UrlInput" class="input-box" placeholder="https://www.facebook.com/share/1AEnqrLjs8/?mibextid=wwXIfr">
+
+        <label class="field-label">ชื่อกล่อง 3</label>
+        <input type="text" id="link3TitleInput" class="input-box" placeholder="♡ check credit ໒꒱">
+        <label class="field-label">ลิงก์กล่อง 3</label>
+        <input type="url" id="link3UrlInput" class="input-box" placeholder="https://julindamerly.ksmbxll.com/">
+
+        <label class="field-label">ลิงก์เพลง (.mp3)</label>
+        <input type="url" id="musicUrlInput" class="input-box" placeholder="https://file.garden/asG8Gt-rqWIpi3II/Butter%20Love%20Fan%20Chant.mp3">
+      </div>
+
+      <button type="button" class="btn-pink" id="saveAllBtn" onclick="saveConfig()">☁️ บันทึกข้อมูลทั้งหมดขึ้นระบบทันที ♡</button>
+    </div>
+  </div>
+
+  <script>
+    const AUTH_EMAIL = "mamax5xma@gmail.com";
+    const AUTH_PASS = "mmaarrttyy";
+    const DB_COLLECTION = "julinda_config";
+    const MAX_DOC_BYTES = 700000;
+
+    const DEFAULTS = {
+      welcomeName: "julinda",
+      welcomeDesc: "welcome to julinda\nclick to watch ‎૮꒰ ˶• ༝ •˶꒱ა",
+      goToContactLabel: "go to contact  ♡",
+      welcomeImg: "https://files.catbox.moe/ke2gn7.jpeg",
+      bannerImg: "https://files.catbox.moe/uic9km.jpeg",
+      profileImg: "https://files.catbox.moe/76x8fa.png",
+      profileFrameImg: "https://files.catbox.moe/fpk769.gif",
+      nameSideImg: "https://files.catbox.moe/gp9ff1.png",
+      shopName: "julinda",
+      bioText: "welcome to julinda  ‎˃ ⤙ ˂\nopen 9:00 - 23:30 ♡\nปกติจะตอบกลับทันที ถ้าว่างนะคับ •᎑•",
+      link1Title: "♡ line me : @180igtyi",
+      link1Url: "https://lin.ee/6AUvK58",
+      link2Title: "♡ facebook  me",
+      link2Url: "https://www.facebook.com/share/1AEnqrLjs8/?mibextid=wwXIfr",
+      link3Title: "♡ check credit ໒꒱",
+      link3Url: "https://julindamerly.ksmbxll.com/",
+      musicUrl: "https://file.garden/asG8Gt-rqWIpi3II/Butter%20Love%20Fan%20Chant.mp3"
+    };
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCpAGDSy1NRgmLV_g7qJrCpwOhU9MrfQyY",
+      authDomain: "benefitie.firebaseapp.com",
+      projectId: "benefitie",
+      storageBucket: "benefitie.firebasestorage.app",
+      messagingSenderId: "270365672215",
+      appId: "1:270365672215:web:230d1491091e26ce83ed52"
+    };
+
+    if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    window.addEventListener("DOMContentLoaded", () => {
+      if (sessionStorage.getItem("julinda_auth") === "true") {
+        openDashboard();
+      }
+    });
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const em = document.getElementById("loginEmail").value.trim();
+      const pw = document.getElementById("loginPass").value.trim();
+      if (em.toLowerCase() === AUTH_EMAIL.toLowerCase() && pw === AUTH_PASS) {
+        sessionStorage.setItem("julinda_auth", "true");
+        openDashboard();
+      } else {
+        document.getElementById("loginErr").style.display = "block";
+      }
+    }
+
+    function handleLogout() {
+      sessionStorage.removeItem("julinda_auth");
+      location.reload();
+    }
+
+    async function openDashboard() {
+      document.getElementById("loginCard").classList.add("hidden");
+      document.getElementById("adminDashboard").classList.remove("hidden");
+
+      let data = { ...DEFAULTS };
+      try {
+        const snap = await db.collection(DB_COLLECTION).doc("main").get();
+        if (snap.exists) data = { ...data, ...snap.data() };
+      } catch (e) {}
+
+      fillForm(data);
+    }
+
+    const IMAGE_KEYS = ["welcomeImg", "bannerImg", "profileImg", "profileFrameImg", "nameSideImg"];
+
+    function fillForm(d) {
+      document.getElementById("welcomeNameInput").value = d.welcomeName || DEFAULTS.welcomeName;
+      document.getElementById("welcomeDescInput").value = d.welcomeDesc || DEFAULTS.welcomeDesc;
+      document.getElementById("goToContactLabelInput").value = d.goToContactLabel || DEFAULTS.goToContactLabel;
+      document.getElementById("shopNameInput").value = d.shopName || DEFAULTS.shopName;
+      document.getElementById("bioTextInput").value = d.bioText || DEFAULTS.bioText;
+      document.getElementById("link1TitleInput").value = d.link1Title || DEFAULTS.link1Title;
+      document.getElementById("link1UrlInput").value = d.link1Url || DEFAULTS.link1Url;
+      document.getElementById("link2TitleInput").value = d.link2Title || DEFAULTS.link2Title;
+      document.getElementById("link2UrlInput").value = d.link2Url || DEFAULTS.link2Url;
+      document.getElementById("link3TitleInput").value = d.link3Title || DEFAULTS.link3Title;
+      document.getElementById("link3UrlInput").value = d.link3Url || DEFAULTS.link3Url;
+      document.getElementById("musicUrlInput").value = d.musicUrl || DEFAULTS.musicUrl;
+
+      IMAGE_KEYS.forEach(k => {
+        const val = d[k] || DEFAULTS[k];
+        document.getElementById(k + "Input").value = val;
+        document.getElementById("prev_" + k).src = val;
+      });
+    }
+
+    function readRawDataUrl(file) {
+      return new Promise((resolve, reject) => {
+        const fr = new FileReader();
+        fr.onload = ev => resolve(ev.target.result);
+        fr.onerror = () => reject(new Error("อ่านไฟล์ไม่ได้"));
+        fr.readAsDataURL(file);
+      });
+    }
+
+    // คงต้นฉบับไว้หากไฟล์เล็กพอ และย่อขนาดอัตโนมัติเฉพาะกรณีใหญ่เกินลิมิต
+    async function processImageUnlimited(file, maxSide = 960) {
+      const raw = await readRawDataUrl(file);
+      if (new Blob([raw]).size <= MAX_DOC_BYTES) return raw;
+
+      return new Promise(resolve => {
+        const img = new Image();
+        img.onload = () => {
+          const levels = [
+            { side: maxSide, q: 0.85 },
+            { side: 800, q: 0.76 },
+            { side: 640, q: 0.68 },
+            { side: 480, q: 0.58 }
+          ];
+          let chosen = raw;
+          for (const lv of levels) {
+            const ow = img.naturalWidth || 600;
+            const oh = img.naturalHeight || 600;
+            let tw = ow, th = oh;
+            if (Math.max(ow, oh) > lv.side) {
+              if (ow >= oh) {
+                tw = lv.side;
+                th = Math.max(1, Math.round((oh * lv.side) / ow));
+              } else {
+                th = lv.side;
+                tw = Math.max(1, Math.round((ow * lv.side) / oh));
+              }
+            }
+            const c = document.createElement("canvas");
+            c.width = tw;
+            c.height = th;
+            c.getContext("2d").drawImage(img, 0, 0, tw, th);
+            chosen = c.toDataURL("image/jpeg", lv.q);
+            if (new Blob([chosen]).size <= MAX_DOC_BYTES) break;
+          }
+          resolve(chosen);
+        };
+        img.src = raw;
+      });
+    }
+
+    async function onPickImage(e, key) {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      const side = key === "profileFrameImg" || key === "nameSideImg" ? 512 : 960;
+      const result = await processImageUnlimited(file, side);
+      document.getElementById(key + "Input").value = result;
+      document.getElementById("prev_" + key).src = result;
+      e.target.value = "";
+    }
+
+    async function saveConfig() {
+      const btn = document.getElementById("saveAllBtn");
+      btn.disabled = true;
+      btn.textContent = "กำลังบันทึก... ⏳";
+
+      const payload = {
+        welcomeName: document.getElementById("welcomeNameInput").value.trim() || DEFAULTS.welcomeName,
+        welcomeDesc: document.getElementById("welcomeDescInput").value,
+        goToContactLabel: document.getElementById("goToContactLabelInput").value.trim() || DEFAULTS.goToContactLabel,
+        welcomeImg: document.getElementById("welcomeImgInput").value.trim() || DEFAULTS.welcomeImg,
+        bannerImg: document.getElementById("bannerImgInput").value.trim() || DEFAULTS.bannerImg,
+        profileImg: document.getElementById("profileImgInput").value.trim() || DEFAULTS.profileImg,
+        profileFrameImg: document.getElementById("profileFrameImgInput").value.trim() || DEFAULTS.profileFrameImg,
+        nameSideImg: document.getElementById("nameSideImgInput").value.trim() || DEFAULTS.nameSideImg,
+        shopName: document.getElementById("shopNameInput").value.trim() || DEFAULTS.shopName,
+        bioText: document.getElementById("bioTextInput").value,
+        link1Title: document.getElementById("link1TitleInput").value.trim() || DEFAULTS.link1Title,
+        link1Url: document.getElementById("link1UrlInput").value.trim() || DEFAULTS.link1Url,
+        link2Title: document.getElementById("link2TitleInput").value.trim() || DEFAULTS.link2Title,
+        link2Url: document.getElementById("link2UrlInput").value.trim() || DEFAULTS.link2Url,
+        link3Title: document.getElementById("link3TitleInput").value.trim() || DEFAULTS.link3Title,
+        link3Url: document.getElementById("link3UrlInput").value.trim() || DEFAULTS.link3Url,
+        musicUrl: document.getElementById("musicUrlInput").value.trim() || DEFAULTS.musicUrl
+      };
+
+      try {
+        await db.collection(DB_COLLECTION).doc("main").set(payload, { merge: true });
+        alert("บันทึกข้อมูลสำเร็จแล้วค่ะ! หน้าเว็บอัปเดตทันที ♡");
+      } catch (err) {
+        alert("บันทึกไม่สำเร็จ กรุณาลองใหม่อีกครั้งค่ะ");
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "☁️ บันทึกข้อมูลทั้งหมดขึ้นระบบทันที ♡";
+      }
+    }
+  </script>
+</body>
+</html>
