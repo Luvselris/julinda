@@ -247,39 +247,28 @@
       display: block;
     }
 
-    /* กรอบอยู่รอบๆ ด้านหลังโปรไฟล์ ไม่ทับบังรูปโปรไฟล์ */
+    /* กรอบปีกและโบว์ครอบรอบวงกลมโปรไฟล์แบบภาพที่สอง */
     .avatar-stage {
       position: relative;
-      width: 164px;
-      height: 112px;
-      margin: -48px auto 6px;
+      width: 156px;
+      height: 124px;
+      margin: -54px auto 2px;
       display: flex;
       align-items: center;
       justify-content: center;
       z-index: 3;
     }
 
-    .avatar-frame-overlay {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      pointer-events: none;
-      z-index: 1;
-      animation: frameAroundSoft 3.2s ease-in-out infinite;
-    }
-
     .avatar-photo-circle {
-      width: 88px;
-      height: 88px;
+      width: 84px;
+      height: 84px;
       border-radius: 50%;
       overflow: hidden;
-      border: 3px solid #ffffff;
+      border: 2.5px solid #ffffff;
       background: #ffffff;
-      box-shadow: 0 6px 16px rgba(166, 132, 196, 0.22);
+      box-shadow: 0 4px 14px rgba(166, 132, 196, 0.18);
       position: relative;
-      z-index: 2;
+      z-index: 1;
     }
 
     .avatar-photo-circle img {
@@ -289,9 +278,20 @@
       display: block;
     }
 
-    @keyframes frameAroundSoft {
+    .avatar-frame-overlay {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      pointer-events: none;
+      z-index: 2;
+      animation: frameWingFloat 3.2s ease-in-out infinite;
+    }
+
+    @keyframes frameWingFloat {
       0%, 100% { transform: translateY(0px) scale(1); }
-      50% { transform: translateY(-3px) scale(1.03); }
+      50% { transform: translateY(-2.5px) scale(1.02); }
     }
 
     .shop-name-row {
@@ -299,7 +299,7 @@
       align-items: center;
       justify-content: center;
       gap: 7px;
-      margin-top: 4px;
+      margin-top: 2px;
     }
 
     .shop-title {
@@ -411,10 +411,10 @@ click to watch ‎૮꒰ ˶• ༝ •˶꒱ა</div>
       </div>
 
       <div class="avatar-stage">
-        <img id="profileFrameImg" class="avatar-frame-overlay" src="https://files.catbox.moe/fpk769.gif" alt="Frame">
         <div class="avatar-photo-circle">
           <img id="profileImg" src="https://files.catbox.moe/76x8fa.png" alt="Profile">
         </div>
+        <img id="profileFrameImg" class="avatar-frame-overlay" src="https://files.catbox.moe/fpk769.gif" alt="Frame">
       </div>
 
       <div class="shop-name-row">
