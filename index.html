@@ -247,12 +247,12 @@
       display: block;
     }
 
-    /* กรอบสัดส่วนพอดี ไม่บีบ ไม่ยืด และบังขอบวงกลมโปรไฟล์ได้เนียนขึ้น */
+    /* กรอบขนาดพอดีและอยู่นิ่งๆ ไม่ลอยขึ้นลง */
     .avatar-stage {
       position: relative;
-      width: 196px;
-      height: 146px;
-      margin: -62px auto -4px;
+      width: 184px;
+      height: 122px;
+      margin: -48px auto 4px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -260,8 +260,8 @@
     }
 
     .avatar-photo-circle {
-      width: 90px;
-      height: 90px;
+      width: 84px;
+      height: 84px;
       border-radius: 50%;
       overflow: hidden;
       border: none;
@@ -275,7 +275,6 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transform: scale(1.06);
       display: block;
     }
 
@@ -287,12 +286,6 @@
       object-fit: contain;
       pointer-events: none;
       z-index: 2;
-      animation: frameWingFloat 3.2s ease-in-out infinite;
-    }
-
-    @keyframes frameWingFloat {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-2px); }
     }
 
     .shop-name-row {
