@@ -88,7 +88,7 @@
       100% { transform: translateY(-115vh) scale(1.12); opacity: 0; }
     }
 
-    /* หน้าแรกต้อนรับ ไม่มีกรอบครอบรูป */
+    /* หน้าแรกต้อนรับ */
     .welcome-screen {
       min-height: 100vh;
       display: flex;
@@ -127,6 +127,12 @@
       object-fit: contain;
       margin: 0 auto 14px;
       display: block;
+      animation: kittyGentleFloat 3s ease-in-out infinite;
+    }
+
+    @keyframes kittyGentleFloat {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-6px); }
     }
 
     .welcome-name {
@@ -241,12 +247,12 @@
       display: block;
     }
 
-    /* กรอบโปรไฟล์อยู่รอบวงกลมโปรไฟล์พอดี */
+    /* กรอบโปรไฟล์ล้อมรอบวงกลมโปรไฟล์พอดี ไม่บิดสัดส่วน */
     .avatar-stage {
       position: relative;
-      width: 120px;
-      height: 120px;
-      margin: -48px auto 4px;
+      width: 108px;
+      height: 108px;
+      margin: -46px auto 6px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -274,21 +280,18 @@
 
     .avatar-frame-overlay {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 118px;
-      height: 118px;
-      object-fit: fill;
-      border-radius: 50%;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
       pointer-events: none;
       z-index: 2;
-      transform: translate(-50%, -50%);
-      animation: frameRingPulse 3.4s ease-in-out infinite;
+      animation: frameGentleFloat 3.2s ease-in-out infinite;
     }
 
-    @keyframes frameRingPulse {
-      0%, 100% { transform: translate(-50%, -50%) scale(1); }
-      50% { transform: translate(-50%, -50%) scale(1.03); }
+    @keyframes frameGentleFloat {
+      0%, 100% { transform: translateY(0px) scale(1); }
+      50% { transform: translateY(-3px) scale(1.03); }
     }
 
     .shop-name-row {
